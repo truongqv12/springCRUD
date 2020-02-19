@@ -247,6 +247,25 @@
         <!-- Main content -->
         <section class="content">
 
+            <div class="container col-6">
+                <h1>Manage User</h1>
+                <table class="table table-active">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                    <tr th:each="item : ${employees}">
+                        <td th:text="${item.emp_name}"></td>
+                        <td th:text="${item.emp_address}"></td>
+                        <td th:text="${item.emp_phone}"></td>
+                        <td th:text="${item.hire_date}"></td>
+                    </tr>
+                </table>
+                <a href="/add" class="btn btn-success">Add User</a>
+            </div>
+
         </section>
         <!-- /.content -->
     </div>

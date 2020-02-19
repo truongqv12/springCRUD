@@ -17,12 +17,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @RequestMapping("/")
-//    public String index(Model model) {
+    @RequestMapping("/")
+    public String index(Model model) {
 //        List<User> users = userService.getAllUser();
 //        model.addAttribute("users", users);
-//        return "index";
-//    }
+        return "index";
+    }
 
     @GetMapping(value = "/api/list")
     private ResponseEntity<Object> getApplications(
