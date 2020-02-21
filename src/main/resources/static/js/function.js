@@ -1,4 +1,5 @@
-(function(){
+(function()
+{
 	// $(document).on('click', '#btn-add', function(event) {
 	// 	var form = $(this).data('form');
 	// 	var action = $(this).data('action');
