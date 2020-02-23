@@ -1,15 +1,16 @@
 package com.truong.app_curd.service;
 
 import com.truong.app_curd.entity.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeService {
 
-    List<Employee> getAllEmployee(int limit, int offset);
+    Page<Employee> getAllEmployee(Pageable pageable);
 
-    void saveEmployee(Employee user);
+    Employee saveEmployee(Employee employee);
 
     void deleteEmployee(Long id);
 

@@ -6,7 +6,9 @@ import com.truong.app_curd.repository.EmployeeRepository;
 import com.truong.app_curd.repository.UserRepository;
 import com.truong.app_curd.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,25 +20,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public List<Employee> getAllEmployee(int limit, int offset) {
-        return Optional.of(limit)
-                .map(value -> employeeRepository.findAll(PageRequest.of(offset - 1, value)).getContent())
-                .orElseGet(() -> employeeRepository.findAll()
-        );
+    public Page<Employee> getAllEmployee(Pageable pageable) {
+        return (Page<Employee>) employeeRepository.findAll(pageable);
     }
 
     @Override
-    public void saveEmployee(Employee user) {
-
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 
     @Override
     public void deleteEmployee(Long id) {
-
+        employeeRepository.deleteById(id);
     }
 
     @Override
     public Optional<Employee> findEmployeeById(Long id) {
-        return Optional.empty();
+            return employeeRepository.findById(id);
     }
 }

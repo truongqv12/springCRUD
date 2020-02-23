@@ -7,14 +7,22 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/AdminLTE.css">
-    <link rel="stylesheet" href="css/_all-skins.min.css">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/style.css"/>
-    <script src="js/angular.min.js"></script>
-    <script src="js/app.js"></script>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/AdminLTE.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/_all-skins.min.css}">
+
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+
+    <link rel="stylesheet" th:href="@{/css/toastr.min.css}"/>
+
+    <link rel="stylesheet" th:href="@{/css/waitMe.min.css}"/>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -43,7 +51,7 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="images/avatar.png" class="user-image" alt="User Image">
+                            <img src="/images/avatar.png" class="user-image" alt="User Image">
                             <span class="hidden-xs">Trần Trọng Trường</span>
                         </a>
                     </li>
@@ -59,7 +67,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="images/avatar.png" class="img-circle" alt="User Image">
+                    <img src="/images/avatar.png" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p>Trường</p>
@@ -68,7 +76,7 @@
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
-                <li><a th:href="@{employee}"><i class="fa fa-th"></i> <span>Employee</span></a></li>
+                <li><a th:href="@{employee}"><i class="fa fa-users"></i> <span>Employee</span></a></li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -78,13 +86,10 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <ol class="breadcrumb">
-                <li><a th:href="@{/index.html}"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Employee</li>
-            </ol>
-        </section>
+        <ol class="breadcrumb no-margin">
+            <li><a th:href="@{/index.html}"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Employee</li>
+        </ol>
 
         <!-- Main content -->
         <section class="content">
@@ -97,108 +102,56 @@
                         <div class="box-body">
                             <!-- /.box-header -->
                             <div class="div">
-                                <form action="" method="GET">
-                                    <div class="row">
-                                        <div class="col-xs-4">
-                                            <div class="form-group">
-                                                <label>Tiêu đề</label><input name="address" value=""
-                                                                             class="form-control"
-                                                                             placeholder="Nhập tiêu đề">
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <div class="form-group">
-                                                <label>Trạng thái</label>
-                                                <select name="status" id="" class="form-control">
-                                                    <option value="" selected=""> Tất cả
-                                                    </option>
-                                                    <option value="0">
-                                                        Chờ phê duyệt
-                                                    </option>
-                                                    <option value="1"> Đã phê duyệt
-                                                    </option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <div class="form-group">
-                                                <label>&nbsp;</label>
-                                                <input class="form-control btn btn-primary" type="submit"
-                                                       value="Tìm kiếm">
-                                            </div>
+                                <div class="row">
+                                    <div class="col-xs-4">
+                                        <div class="form-group">
+                                            <label>Tiêu đề</label>
+                                            <input name="address" value="" class="form-control"
+                                                   placeholder="Nhập tiêu đề">
                                         </div>
                                     </div>
-                                </form>
+                                    <div class="col-xs-3">
+                                        <div class="form-group">
+                                            <label>Chức vụ</label>
+                                            <select name="status" id="show_job" class="form-control">
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <input class="form-control btn btn-primary" type="submit" value="Tìm kiếm">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <div class="form-group">
+                                            <label>&nbsp;</label>
+                                            <a class="form-control btn btn-success" data-toggle="modal"
+                                               href='#modal-id'>Thêm mới</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <table id="data_table" class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-                                    <th class="bg-primary">STT</th>
-                                    <th class="bg-primary">Họ tên</th>
+                                    <th class="bg-primary">ID</th>
+                                    <th class="bg-primary" width="300px">Họ tên</th>
+                                    <th class="bg-primary">Chức vụ</th>
                                     <th class="bg-primary">Số điện thoại</th>
-                                    <th class="bg-primary">Địa chỉ</th>
-                                    <th class="bg-primary">Ngày được nhận</th>
+                                    <th class="bg-primary" width="300px">Địa chỉ</th>
                                     <th class="bg-primary">Hành động</th>
                                 </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                    <td>584</td>
-                                    <td style="width: 400px">Cần tìm 1 bạn nữ ở ghép</td>
-                                    <td>Phòng trọ</td>
-                                    <td>750.000 Đ / Tháng</td>
-                                    <td>
-                                        <label class="label label-success">Đã phê duyệt</label>
-                                    </td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button"
-                                                    class="btn btn-action label label-success dropdown-toggle"
-                                                    data-toggle="dropdown">
-                                                <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <li><a href="http://trotot.herokuapp.com/admin/motelroom/active/584">
-                                                    <i class="fa fa-check-square-o"></i>Phê duyệt</a>
-                                                </li>
-                                                <li>
-                                                    <a href="http://trotot.herokuapp.com/admin/motelroom/unactive/584"><i
-                                                            class="fa fa-eye-slash"></i>Tạm ẩn</a></li>
-                                            </ul>
-                                        </div>
+                                <tbody id="show_data">
 
-                                        <form action="http://trotot.herokuapp.com/admin/motelroom/584" method="post"
-                                              class="inline">
-                                            <input type="hidden" name="_token"
-                                                   value="1Gl2fn9sWHWfcmeiSUxkFpKnQeBBD2uBWkp3E0lN">
-                                            <input type="hidden" name="_method" value="DELETE">
-                                            <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa')"
-                                                    class="btn btn-action label label-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
                                 </tbody>
                             </table>
-                            <div class="text-right">
-                                <ul class="pagination" role="navigation">
-
-                                    <li class="page-item disabled" aria-disabled="true" aria-label="« Previous">
-                                        <span class="page-link" aria-hidden="true">‹</span>
-                                    </li>
-                                    <li class="page-item active" aria-current="page"><span class="page-link">1</span>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="http://trotot.herokuapp.com/admin/motelroom?page=2"
-                                           rel="next" aria-label="Next »">›</a>
-                                    </li>
-                                </ul>
-
-                            </div>
-
                         </div>
                         <!-- /.box-body -->
+                        <div class="box-footer clearfix" id="paginate_div">
+
+                        </div>
                     </div>
                     <!-- /.box -->
                 </div>
@@ -209,7 +162,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-
+    
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
             <b>Version</b> 2.4.0
@@ -217,31 +170,295 @@
         <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
         reserved.
     </footer>
+    <div class="modal fade" id="modal-id">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" name="form_add_employee" id="form_add_employee" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+                        <h4 class="modal-title">Thêm mới nhân viên</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Họ và tên</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="emp_name" placeholder="Nhập họ tên">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" name="emp_email" placeholder="Nhập email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">SĐT</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="emp_phone" placeholder="Nhập số điện thoại">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Địa chỉ</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="emp_address" placeholder="Nhập địa chỉ">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Chức vụ</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="job_select_content" name="job_id"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Ngày nhận việc</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" name="hire_date" value="">
+                            </div>
+                        </div>
 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="submit_ajax_add_employ(this)">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- ./wrapper -->
 
 <!-- jQuery 3 -->
 
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/adminlte.min.js"></script>
-<script src="js/dashboard.js"></script>
-<script src="js/function.js"></script>
-<script>
+<script th:src="@{/js/jquery.min.js}"></script>
 
-    function getEmloyee(limit, page) {
+<script th:src="@{/js/jquery-ui.js}"></script>
+
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+<script th:src="@{/js/adminlte.min.js}"></script>
+
+<script th:src="@{/js/dashboard.js}"></script>
+
+<script th:src="@{/js/toastr.min.js}"></script>
+
+<script th:src="@{/js/waitMe.min.js}"></script>
+
+<script th:src="@{/js/function.js}"></script>
+
+<script>
+    $(document).ready(function () {
+        //lấy dữ liệu
+        getEmloyee();
+        getAllJob();
+    });
+
+    $.fn.serializeObject = function() {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+
+    function submit_ajax_add_employ(ele) {
+        var form = $(ele).parents('form');
+        var emp_name = form.find('input[name=emp_name]').val();
+        var emp_phone = form.find('input[name=emp_phone]').val();
+        var emp_address = form.find('input[name=emp_address]').val();
+        var hire_date = form.find('input[name=hire_date]').val();
+        var emp_email = form.find('input[name=emp_email]').val();
+        var job_id = form.find('select[name=job_id]').val();
+
+        if (emp_name === '' || hire_date === '' || emp_email === '' || emp_phone === ''|| job_id === '') {
+            toastr.error('Vui lòng điển đủ thông tin');
+            return false;
+        }
+
+        var form_data = form.serializeObject();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/employee/save',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            data : JSON.stringify(form_data),
+            dataType: 'json',
+            beforeSend: function () {},
+            success: function (data) {
+                console.log(data);
+                debugger;
+            },
+        });
+
+    }
+
+    function getEmloyee(page = 1) {
+        var target = $('#data_table');
         $.ajax({
             type: 'GET',
-            url: '/ajax/load-district',
-            data: {
-                limit: limit,
-                page: page
+            url: '/api/employee/list',
+            data: {page: page},
+            beforeSend: function () {
+                tagetWaitMe(target);
             },
-            success: function (response) {
-
+            success: function (data) {
+                generateTable(data.content);
+                showPaginate(data.totalPages, data.number + 1);
+            },
+            complete: function () {
+                target.waitMe('hide');
             }
+        });
+    }
+
+    function getAllJob() {
+        $.ajax({
+            type: 'GET',
+            url: '/api/job/list',
+            beforeSend: function () {
+            },
+            success: function (data) {
+                generateSelect(data);
+            },
+            complete: function () {
+            }
+        });
+    }
+
+    function generateSelect(data) {
+        var html = '<option value="" selected="">Chọn chức vụ</option>';
+        $.each(data, function (key, value) {
+            html += '<option value="' + value.id + '">' + value.name + '</option>';
+        });
+        $('#job_select_content').html(html);
+        $('#show_job').html(html);
+    }
+
+    function deleteEmloyee(id) {
+        var target = $('#data_table');
+        if (!confirm("Bạn có muốn xóa nhân viên này không")) {
+            return;
+        }
+        $.ajax({
+            type: 'DELETE',
+            url: '/api/employee/' + id,
+            beforeSend: function () {
+            },
+            statusCode: {
+                400: function (xhr) {
+                    toastr.error("Không xóa được");
+                }
+            },
+            success: function (data, textStatus, xhr) {
+                if (xhr.status === 200) {
+                    toastr.success("Đã xóa");
+                    getEmloyee();
+                }
+            }
+        });
+    }
+
+    function generateTable(data) {
+        $('#show_data').html('');
+        var html = '';
+        $.each(data, function (key, value) {
+            html = '<tr>';
+            html += '<td>' + value.empId + '</td>';
+            html += '<td>' + value.empName + '</td>';
+            html += '<td>' + value.jobName + '</td>';
+            html += '<td>' + value.empPhone + '</td>';
+            html += '<td>' + value.empAddress + '</td>';
+            html += '<td><button onclick="deleteEmloyee(' + value.empId + ')" class="btn btn-action label label-danger"><i class="fa fa-trash"></i></button></td>';
+            html += '</tr>';
+            $('#show_data').append(html);
+        })
+    }
+
+    //hàm phân trang bằng js
+    function showPaginate(lastPage, currentPage) {
+        let counter;
+        var adjacents = 2;
+        var next = currentPage + 1;
+        var previous = currentPage - 1;
+        var pagination = '';
+
+        if (lastPage > 6) {
+            pagination += "<ul class='pagination pull-right'>";
+            if (currentPage > 1) {
+                pagination += "<li class='page-item'><a class='page-link current' title='Về trang đầu' onclick='getEmloyee()' href='javascript: void(0)'><i class='fa fa-fw fa-angle-double-left' aria-hidden='true'></i></a></li>";
+                pagination += "<li class='page-item'><a class='page-link' title='previous' onclick='getEmloyee(" + previous + ")' href='javascript: void(0)'><i class='fa fa-fw fa-angle-left' aria-hidden='true'></i></a></li>";
+            }
+            if (lastPage < 3 + (adjacents * 2)) {
+                for (counter = 1; counter <= lastPage; counter++) {
+                    pagination += (counter === currentPage)
+                        ? "<li class='active page-item'><a class='page-link'>" + counter + "</a></li>"
+                        : "<li class='page-item'><a class='page-link' onclick='getEmloyee(" + counter + ")' href='javascript: void(0)'>" + counter + "</a></li>";
+                }
+            } else if (lastPage > 3 + (adjacents * 2)) {
+                // trường hợp dành cho việc phân trang lúc đầu nhỏ hơn 5
+                if (currentPage < 1 + (adjacents * 2)) {
+                    for (counter = 1; counter < 2 + (adjacents * 2); counter++) {
+                        pagination += (counter === currentPage)
+                            ? "<li class='active page-item'><a class='page-link'>" + counter + "</a></li>"
+                            : "<li class='page-item'><a class='page-link' onclick='getEmloyee(" + counter + ")' href='javascript: void(0)'>" + counter + "</a></li>";
+                    }
+                } //trường hợp dành cho page cuối cùng -4 lớn hơn page đang ở
+                else if (lastPage - (adjacents * 2) > currentPage && currentPage > (adjacents * 2)) {
+
+                    for (counter = currentPage - adjacents; counter <= currentPage + adjacents; counter++) {
+                        pagination += (counter === currentPage)
+                            ? "<li class='active page-item'><a class='page-link'>" + counter + "</a></li>"
+                            : "<li class='page-item'><a class='page-link' onclick='getEmloyee(" + counter + ")' href='javascript: void(0)'>" + counter + "</a></li>";
+                    }
+                } // trường hợp click vào các page cuối cùng
+                else {
+                    for (counter = lastPage - (2 + (adjacents * 2)); counter <= lastPage; counter++) {
+                        pagination += (counter === currentPage)
+                            ? "<li class='active page-item'><a class='page-link'>" + counter + "</a></li>"
+                            : "<li class='page-item'><a class='page-link' onclick='getEmloyee(" + counter + ")' href='javascript: void(0)'>" + counter + "</a></li>";
+                    }
+                }
+            }
+            if (currentPage < lastPage - 2) {
+                pagination += "<li class='page-item'><a class='page-link' title='next' onclick='getEmloyee(" + next + ")' href='javascript: void(0)'><i class='fa fa-fw fa-angle-right' aria-hidden='true'></i></a></li>";
+                pagination += "<li class='page-item'><a class='page-link' title='Về trang cuối' onclick='getEmloyee(" + lastPage + ")' href='javascript: void(0)'><i class='fa fa-fw fa-angle-double-right' aria-hidden='true'></i></a></li>";
+            }
+            pagination += "</ul>";
+        } else if (lastPage > 1) {
+            pagination += "<ul class='pagination'>";
+            for (counter = 1; counter <= lastPage; counter++) {
+                pagination += (counter === currentPage)
+                    ? "<li class='active page-item'><a class='page-link'>" + counter + "</a></li>"
+                    : "<li class='page-item'><a class='page-link' onclick='getEmloyee(" + counter + ")' href='javascript: void(0)'>" + counter + "</a></li>";
+            }
+        } else {
+            pagination = '';
+        }
+        $('#paginate_div').html(pagination);
+
+        // console.log('lastPage: ' + lastPage, 'currentPage: ' + currentPage, 'adjacents: ' + adjacents, 'next: ' + next, 'previous: ' + previous);
+    }
+
+    function tagetWaitMe(taget) {
+        taget.waitMe({
+            effect: 'rotation',
+            text: 'loading...',
+            waitTime: -1,
         });
     }
 </script>

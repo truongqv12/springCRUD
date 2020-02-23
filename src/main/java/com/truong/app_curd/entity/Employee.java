@@ -1,5 +1,6 @@
 package com.truong.app_curd.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,17 +17,38 @@ import java.util.Date;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Id tự động tăng
-    private Long emp_id;
+    // Không dùng dấu gạch dưới
+    private Long empId;
 
-    private String emp_name;
-    private String emp_phone;
-    private String emp_address;
-    private Long job_id;
+    private String empName;
+    private String empPhone;
+    private String empAddress;
+    private String empEmail;
+    private String empBirthday;
+    @Column(nullable = false)
+    private Long jobId;
+    private Long managerId;
 
-    private Long manager_id;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date hire_date;
+    private Date hireDate;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "jobId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JsonIgnore
+    private Job job;
+
+    public Employee(
+//            String empName, Long jobId, String empEmail, String empAddress, Date hireDate
+    ) {
+//        this.empName = empName;
+//        this.jobId = jobId;
+//        this.empEmail = empEmail;
+//        this.empPhone = empAddress;
+//        this.hireDate = hireDate;
+    }
+
+    //get name
+//    public String getJobName() { return job.getName(); }
 //    @Column(name = "name")
 //    private String name;
 //
