@@ -127,7 +127,7 @@
                                         <div class="form-group">
                                             <label>&nbsp;</label>
                                             <a class="form-control btn btn-success" data-toggle="modal"
-                                               href='#modal-id'>Thêm mới</a>
+                                               href='#modal_add_employee'>Thêm mới</a>
                                         </div>
                                     </div>
                                 </div>
@@ -162,7 +162,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
             <b>Version</b> 2.4.0
@@ -170,10 +170,11 @@
         <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
         reserved.
     </footer>
-    <div class="modal fade" id="modal-id">
+    <div class="modal fade" id="modal_add_employee">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="form-horizontal" name="form_add_employee" id="form_add_employee" enctype="multipart/form-data">
+                <form class="form-horizontal" name="form_add_employee" id="form_add_employee"
+                      enctype="multipart/form-data">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"
                                 aria-hidden="true">&times;
@@ -184,37 +185,38 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Họ và tên</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="emp_name" placeholder="Nhập họ tên">
+                                <input type="text" class="form-control" name="empName" placeholder="Nhập họ tên">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Email</label>
                             <div class="col-sm-9">
-                                <input type="email" class="form-control" name="emp_email" placeholder="Nhập email">
+                                <input type="email" class="form-control" name="empEmail" placeholder="Nhập email">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">SĐT</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="emp_phone" placeholder="Nhập số điện thoại">
+                                <input type="text" class="form-control" name="empPhone"
+                                       placeholder="Nhập số điện thoại">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Địa chỉ</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="emp_address" placeholder="Nhập địa chỉ">
+                                <input type="text" class="form-control" name="empAddress" placeholder="Nhập địa chỉ">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Chức vụ</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="job_select_content" name="job_id"></select>
+                                <select class="form-control" id="job_select_content" name="jobId"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Ngày nhận việc</label>
                             <div class="col-sm-9">
-                                <input type="date" class="form-control" name="hire_date" value="">
+                                <input type="date" class="form-control" name="hireDate" value="">
                             </div>
                         </div>
 
@@ -223,7 +225,70 @@
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="submit_ajax_add_employ(this)">Lưu</button>
+                        <button type="button" class="btn btn-primary" onclick="submit_ajax_add_employ(this)">Lưu
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal_edit_employee">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="form-horizontal" name="form_add_employee" id="form_update_employee"
+                      enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">&times;
+                        </button>
+                        <h4 class="modal-title">Thêm mới nhân viên</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Họ và tên</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="empName" placeholder="Nhập họ tên">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-9">
+                                <input type="email" class="form-control" name="empEmail" placeholder="Nhập email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">SĐT</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="empPhone"
+                                       placeholder="Nhập số điện thoại">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Địa chỉ</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="empAddress" placeholder="Nhập địa chỉ">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Chức vụ</label>
+                            <div class="col-sm-9">
+                                <select class="form-control job_select_content" name="jobId"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Ngày nhận việc</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" name="hireDate" value="">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="submit_ajax_add_employ(this)">Lưu
+                        </button>
                     </div>
                 </form>
             </div>
@@ -257,10 +322,10 @@
         getAllJob();
     });
 
-    $.fn.serializeObject = function() {
+    $.fn.serializeObject = function () {
         var o = {};
         var a = this.serializeArray();
-        $.each(a, function() {
+        $.each(a, function () {
             if (o[this.name]) {
                 if (!o[this.name].push) {
                     o[this.name] = [o[this.name]];
@@ -275,36 +340,50 @@
 
     function submit_ajax_add_employ(ele) {
         var form = $(ele).parents('form');
-        var emp_name = form.find('input[name=emp_name]').val();
-        var emp_phone = form.find('input[name=emp_phone]').val();
-        var emp_address = form.find('input[name=emp_address]').val();
-        var hire_date = form.find('input[name=hire_date]').val();
-        var emp_email = form.find('input[name=emp_email]').val();
-        var job_id = form.find('select[name=job_id]').val();
+        var emp_name = form.find('input[name=empName]').val();
+        var emp_phone = form.find('input[name=empPhone]').val();
+        var emp_address = form.find('input[name=empAddress]').val();
+        var hire_date = form.find('input[name=hireDate]').val();
+        var emp_email = form.find('input[name=empEmail]').val();
+        var job_id = form.find('select[name=jobId]').val();
 
-        if (emp_name === '' || hire_date === '' || emp_email === '' || emp_phone === ''|| job_id === '') {
+        if (emp_name === '' || hire_date === '' || emp_email === '' || emp_phone === '' || job_id === '') {
             toastr.error('Vui lòng điển đủ thông tin');
             return false;
         }
 
-        var form_data = form.serializeObject();
+        var form_data = JSON.stringify(form.serializeObject());
 
         $.ajax({
             type: 'POST',
             url: '/api/employee/save',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json; charset=utf-8'
             },
-            data : JSON.stringify(form_data),
+            timeout: 0,
+            data: form_data,
             dataType: 'json',
-            beforeSend: function () {},
-            success: function (data) {
-                console.log(data);
-                debugger;
+            beforeSend: function () {
+                tagetWaitMe(form);
             },
+            statusCode: {
+                400: function (xhr) {
+                    toastr.error("Không lưu được");
+                }
+            },
+            success: function (data, textStatus, xhr) {
+                if (xhr.status === 200) {
+                    toastr.success("Lưu thành công");
+                }
+            },
+            complete: function () {
+                $("#modal_add_employee").modal("hide");
+                form.waitMe('hide');
+                getEmloyee();
+                form.trigger("reset");
+            }
         });
-
     }
 
     function getEmloyee(page = 1) {
@@ -349,8 +428,11 @@
         $('#show_job').html(html);
     }
 
+    function editEmployee(id) {
+
+    }
+
     function deleteEmloyee(id) {
-        var target = $('#data_table');
         if (!confirm("Bạn có muốn xóa nhân viên này không")) {
             return;
         }
@@ -383,7 +465,8 @@
             html += '<td>' + value.jobName + '</td>';
             html += '<td>' + value.empPhone + '</td>';
             html += '<td>' + value.empAddress + '</td>';
-            html += '<td><button onclick="deleteEmloyee(' + value.empId + ')" class="btn btn-action label label-danger"><i class="fa fa-trash"></i></button></td>';
+            html += '<td><button onclick="deleteEmloyee(' + value.empId + ')" class="btn btn-action label label-danger" style="margin-right: 5px"><i class="fa fa-trash"></i></button>' +
+                '<button onclick="editEmloyee(' + value.empId + ')" class="btn btn-action label label-success"><i class="fa fa-pencil"></i></button></td>';
             html += '</tr>';
             $('#show_data').append(html);
         })

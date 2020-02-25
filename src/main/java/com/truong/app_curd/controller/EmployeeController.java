@@ -74,9 +74,7 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/employee/save")
-    public ResponseEntity<Employee> creatEmployees(@RequestBody Employee employee) {
-        Employee _employee = employeeRepository.save(new Employee());
-        return new ResponseEntity<>(_employee, HttpStatus.CREATED);
-//        return ResponseEntity.ok(employeeService.saveEmployee(employee));
+    public ResponseEntity<Employee> creatEmployees(@Valid @RequestBody Employee employee) {
+        return ResponseEntity.ok(employeeService.saveEmployee(employee));
     }
 }

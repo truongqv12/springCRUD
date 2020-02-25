@@ -37,18 +37,10 @@ public class Employee {
     @JsonIgnore
     private Job job;
 
-    public Employee(
-//            String empName, Long jobId, String empEmail, String empAddress, Date hireDate
-    ) {
-//        this.empName = empName;
-//        this.jobId = jobId;
-//        this.empEmail = empEmail;
-//        this.empPhone = empAddress;
-//        this.hireDate = hireDate;
-    }
+    public Employee() { }
 
     //get name
-//    public String getJobName() { return job.getName(); }
+    public String getJobName() { return job.getName(); }
 //    @Column(name = "name")
 //    private String name;
 //
