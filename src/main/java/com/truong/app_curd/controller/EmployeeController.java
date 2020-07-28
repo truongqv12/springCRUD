@@ -47,6 +47,13 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAllEmployee(pageable));
     }
 
+    @PutMapping("/employee/{empId}")
+    public ResponseEntity<Object> editEmployees(
+            @Valid @RequestBody Employee employee
+    ) {
+        return ResponseEntity.ok(employeeService.updateEmployeee(employee));
+    }
+
     @GetMapping(value = "/employee/{empId}")
     public ResponseEntity<Object> infoEmployees(
             @PathVariable Long empId

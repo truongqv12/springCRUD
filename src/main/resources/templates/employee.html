@@ -137,7 +137,7 @@
                                 <tr>
                                     <th class="bg-primary">ID</th>
                                     <th class="bg-primary" width="300px">Họ tên</th>
-                                    <th class="bg-primary">Chức vụ</th>
+<!--                                    <th class="bg-primary">Chức vụ</th>-->
                                     <th class="bg-primary">Số điện thoại</th>
                                     <th class="bg-primary" width="300px">Địa chỉ</th>
                                     <th class="bg-primary">Hành động</th>
@@ -235,13 +235,13 @@
     <div class="modal fade" id="modal_edit_employee">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form class="form-horizontal" name="form_add_employee" id="form_update_employee"
+                <form class="form-horizontal" name="form_edit_employee" id="form_edit_employee"
                       enctype="multipart/form-data">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"
                                 aria-hidden="true">&times;
                         </button>
-                        <h4 class="modal-title">Thêm mới nhân viên</h4>
+                        <h4 class="modal-title">Sửa thông tin nhân viên</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
@@ -272,7 +272,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Chức vụ</label>
                             <div class="col-sm-9">
-                                <select class="form-control job_select_content" name="jobId"></select>
+                                <select class="form-control" id="job_select_content_update" name="jobId"></select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -281,13 +281,13 @@
                                 <input type="date" class="form-control" name="hireDate" value="">
                             </div>
                         </div>
-
                     </div>
+                    <input type="hidden" class="form-control" name="empId" id="empId" value="">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="submit_ajax_add_employ(this)">Lưu
+                        <button type="button" class="btn btn-primary" onclick="submit_ajax_edit_employ(this)">Sửa
                         </button>
                     </div>
                 </form>
@@ -405,31 +405,115 @@
         });
     }
 
-    function getAllJob() {
+    function getAllJob(key_val = '') {
         $.ajax({
             type: 'GET',
             url: '/api/job/list',
             beforeSend: function () {
             },
             success: function (data) {
-                generateSelect(data);
+                generateSelect(data, key_val);
             },
             complete: function () {
             }
         });
     }
 
-    function generateSelect(data) {
-        var html = '<option value="" selected="">Chọn chức vụ</option>';
-        $.each(data, function (key, value) {
-            html += '<option value="' + value.id + '">' + value.name + '</option>';
-        });
-        $('#job_select_content').html(html);
-        $('#show_job').html(html);
+    function generateSelect(data, key_val = '') {
+        if (key_val != '') {
+            var html = '<option value="">Chọn chức vụ</option>';
+            $.each(data, function (key, value) {
+                let selected = (key_val == value.id) ? 'selected' : '';
+                html += '<option value="' + value.id + '"' + selected + '>' + value.name + '</option>';
+            });
+            $('#job_select_content_update').html(html);
+        } else {
+            var html = '<option value="" selected="">Chọn chức vụ</option>';
+            $.each(data, function (key, value) {
+                html += '<option value="' + value.id + '">' + value.name + '</option>';
+            });
+            $('#job_select_content').html(html);
+            $('#show_job').html(html);
+        }
     }
 
     function editEmployee(id) {
+        let form = $("#form_edit_employee");
+        $.ajax({
+            type: 'GET',
+            url: '/api/employee/' + id,
+            beforeSend: function () {
+            },
+            statusCode: {
+                400: function (xhr) {
+                    toastr.error("Không lấy được");
+                }
+            },
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                if (xhr.status === 200) {
+                    form.find('input[name=empName]').val(data.empName);
+                    form.find('input[name=empPhone]').val(data.empPhone);
+                    form.find('input[name=empAddress]').val(data.empAddress);
+                    form.find('input[name=hireDate]').val(data.hireDate);
+                    form.find('input[name=empEmail]').val(data.empEmail);
+                    form.find('input[name=empId]').val(data.empId);
+                    // var job_id = form.find('select[name=jobId]').val();
+                    getAllJob(data.jobId);
+                    $("#modal_edit_employee").modal("show");
+                }
+            }
+        });
+    }
 
+    function submit_ajax_edit_employ(ele) {
+        var form = $(ele).parents('form');
+        let emp_name = form.find('input[name=empName]').val();
+        let emp_phone = form.find('input[name=empPhone]').val();
+        let emp_address = form.find('input[name=empAddress]').val();
+        let hire_date = form.find('input[name=hireDate]').val();
+        let emp_email = form.find('input[name=empEmail]').val();
+        let emp_id = form.find('input[name=empId]').val();
+        let job_id = form.find('select[name=jobId]').val();
+
+
+        if (emp_name === '' || hire_date === '' || emp_email === '' || emp_phone === '' || job_id === '') {
+            toastr.error('Vui lòng điển đủ thông tin');
+            return false;
+        }
+
+        var form_data = JSON.stringify(form.serializeObject());
+
+        $.ajax({
+            type: 'PUT',
+            url: '/api/employee/' + emp_id,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            timeout: 0,
+            data: form_data,
+            dataType: 'json',
+            beforeSend: function () {
+                tagetWaitMe(form);
+            },
+            statusCode: {
+                400: function (xhr) {
+                    toastr.error("Không cập nhật được");
+                }
+            },
+            success: function (data, textStatus, xhr) {
+                if (xhr.status === 200) {
+                    toastr.success("Cập nhật thành công");
+                }
+            },
+            complete: function () {
+                $("#modal_edit_employee").modal("hide");
+                form.waitMe('hide');
+                getEmloyee();
+                form.trigger("reset");
+            }
+        });
     }
 
     function deleteEmloyee(id) {
@@ -462,11 +546,11 @@
             html = '<tr>';
             html += '<td>' + value.empId + '</td>';
             html += '<td>' + value.empName + '</td>';
-            html += '<td>' + value.jobName + '</td>';
+            // html += '<td>' + value.jobName + '</td>';
             html += '<td>' + value.empPhone + '</td>';
             html += '<td>' + value.empAddress + '</td>';
             html += '<td><button onclick="deleteEmloyee(' + value.empId + ')" class="btn btn-action label label-danger" style="margin-right: 5px"><i class="fa fa-trash"></i></button>' +
-                '<button onclick="editEmloyee(' + value.empId + ')" class="btn btn-action label label-success"><i class="fa fa-pencil"></i></button></td>';
+                '<button onclick="editEmployee(' + value.empId + ')" class="btn btn-action label label-success"><i class="fa fa-pencil"></i></button></td>';
             html += '</tr>';
             $('#show_data').append(html);
         })

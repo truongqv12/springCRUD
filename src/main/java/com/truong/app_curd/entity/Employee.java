@@ -1,10 +1,14 @@
 package com.truong.app_curd.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 //@Entity xác định lớp hiện tại là một entity.
 //@Table xác định tên bảng ánh xạ sang.
 //@Id xác định thuộc tính hiện tại là ID trong bảng CSDL.
@@ -29,18 +33,19 @@ public class Employee {
     private Long jobId;
     private Long managerId;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date hireDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "jobId", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     @JsonIgnore
     private Job job;
-
+    @JsonIgnore
+    public String getJobName() { return job.getName(); }
     public Employee() { }
 
     //get name
-    public String getJobName() { return job.getName(); }
+//    public String getJobName() { return job.getName(); }
 //    @Column(name = "name")
 //    private String name;
 //
